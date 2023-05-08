@@ -1,35 +1,46 @@
-import { Route, Routes } from 'react-router-dom';
+import React from 'react';
 import './App.css';
-import Checkout from './components/checkout/Checkout';
-import Flights from './components/flights/Flights';
-import Home from './components/home/Home';
-import Hotels from './components/hotels/Hotels';
-import Login from './components/login/Login';
-import Navbar from './components/navbar/Navbar';
-import NoPageFound from './components/noPageFound/NoPageFound';
-import SignUp from './components/signup/SignUp';
-import Trains from './components/trains/Trains';
+import Navbar from './components/Navbar';
 
+import FlightList from './components/Flights/FlightList';
+import HotelList from './components/Hotels/HotelList';
+import TrainList from "./components/Trains/TrainList"
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './components/auth/Login';
+import Register from "./components/auth/Register"
+import Book from './components/Book/Book';
+import DataApp from './components/DataApp';
+import Footer from './components/Footer';
+import Offers from './components/Offers/Offers';
 function App() {
   return (
-    <div className="app">
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/flights' element={<Flights />} />
-          <Route path='/hotels' element={<Hotels />} />
-          <Route path='/trains' element={<Trains />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='*' element={<NoPageFound />} />
+    <>
+    <BrowserRouter>  
+      <DataApp>
+      <div className="App">
+              <Navbar/>
+              
 
-        </Routes>
-      </main>
-    </div>
+              <Routes>
+                  <Route path="/" element={ <><FlightList/><Footer/></> }/>
+                  <Route path="/flight" element={<><FlightList/><Footer/></>}/>
+                  <Route path="/hotel" element={<><HotelList/><Footer/></>}/>
+                  <Route path="/train" element={ <><TrainList/><Footer/></>}/>
+                  <Route path="/book" element={ <Book/>}/>
+                  <Route path="/login" element={ <Login/>}/>
+                  <Route path="/register" element={ <Register/>}/>
+                  <Route path="/offers" element={ <><Offers/><Footer/></>}/>
+
+                
+              </Routes>
+
+              
+      </div>
+      </DataApp>
+
+     </BrowserRouter>
+    </>
+  
   );
 }
 
