@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { getOffers } from "./offer.action";
+import axios from "axios";
+
+
 import "./homeOffers.css";
 
 export const Offers = () => {
   const [limit, setLimit] = useState(5);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const { isLoading, isError, offers } = useSelector((store) => {
-    return {
-      isLoading: store.OfferReducer.isLoading,
-      isError: store.OfferReducer.isError,
-      offers: store.OfferReducer.offers,
-    };
-  }, shallowEqual);
+  const [offers,setOffers] = useState([]);
+  const [isLoading,setIsLoading] = useState(false);
+  const [isError,setIsError] = useState(false);
+
 
   const handleMoreOffers = () => {
     if (offers.length >= limit) {
@@ -22,8 +17,24 @@ export const Offers = () => {
     }
   };
 
+  const getOffers = (limit) => {
+    setIsLoading(true);
+    axios
+    .get(`https://makemytrip-api-data.onrender.com/giftcards?_limit=${limit}`)
+    .then((res) => {
+      // console.log(res.data)
+      setOffers(res.data);
+      setIsLoading(false);
+      
+    })
+    .catch((err) => {
+      setIsError(true);
+    });
+
+  }
+
   useEffect(() => {
-    dispatch(getOffers(limit));
+    getOffers(limit);
   }, [limit]);
 
   return (
@@ -130,5 +141,3 @@ export const Offers = () => {
     </div>
   );
 };
-
-export default Offers; 
